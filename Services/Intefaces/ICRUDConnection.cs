@@ -11,5 +11,6 @@ namespace NpgSqlConnections.Services.Intefaces
     {
         public IEnumerable<T> ConnectionReadMethod<T>(string insertingCommand);
         public IEnumerable<T> readData<T>(NpgsqlDataReader reader);
+        public Task<IEnumerable<object>> getJoinTable<T1,T2>(string table1, string table2);
     }
 }

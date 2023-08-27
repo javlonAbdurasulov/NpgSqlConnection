@@ -25,7 +25,7 @@ namespace NpgSqlConnections.Manager
             string column = "";
             string info = "";
             string condition = "where ";
-            Console.WriteLine("menu:\n1-create\n2-update\n3-delete\n4-insert\n5-select\n0-exit");
+            Console.WriteLine("menu:\n1-create\n2-update\n3-delete\n4-insert\n5-select\n6-union two table\n0-exit");
             int choose=int.Parse(Console.ReadLine());
             switch (choose)
             {
@@ -80,6 +80,14 @@ namespace NpgSqlConnections.Manager
 
                         }
                         break;
+                case 6:
+                        Console.WriteLine("table 1: ");
+                        table = Console.ReadLine();
+                        Console.WriteLine("table 2: ");
+                        string table2 = Console.ReadLine();
+                        await PrintJoin(_crud.getJoinTable<Persons,Cars>(table, table2));
+                        _crud.getJoinTable<Persons, Cars>(table, table2);
+                        break;
                 case 0: 
                     repeat=false;
                     break;
@@ -89,6 +97,14 @@ namespace NpgSqlConnections.Manager
         public async Task Print<T>(IEnumerable<T> persons)
         {
             foreach (var item in persons)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            
+        }
+        public async Task PrintJoin(Task<IEnumerable<object>> persons)
+        {
+            foreach (var item in persons.Result)
             {
                 Console.WriteLine(item.ToString());
             }

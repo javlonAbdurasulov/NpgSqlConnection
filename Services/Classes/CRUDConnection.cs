@@ -38,6 +38,17 @@ namespace NpgSqlConnections.Services.Classes
             string insertingCommand = $"insert into {table}({columns_forInsert}) values{info}";
             Connectionmethod(insertingCommand);
         }
+        
+        public async Task<IEnumerable<object>> getJoinTable<T1,T2>(string table1, string table2)
+        {
+            string insertingCommand = $"select * from {table1}";
+            var res1 = ConnectionReadMethod<T1>(insertingCommand);
+            insertingCommand = $"select * from {table2}";
+            var res2 = ConnectionReadMethod<T2>(insertingCommand);
+            var res = res1.Cast<object>().Union(res2.Cast<object>());
+
+            return res;
+        }
         public IEnumerable<T> getTable<T>(string table)
         {
             string insertingCommand = $"select * from {table}";
