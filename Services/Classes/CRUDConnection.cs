@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Dapper;
+using Npgsql;
 using NpgSqlConnections.Model;
 using NpgSqlConnections.Services.Intefaces;
 using System;
@@ -59,12 +60,13 @@ namespace NpgSqlConnections.Services.Classes
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            NpgsqlCommand command = new NpgsqlCommand(insertingCommand, connection);
-            NpgsqlDataReader reader = command.ExecuteReader();
+            //NpgsqlCommand command = new NpgsqlCommand(insertingCommand, connection);
+            //NpgsqlDataReader reader = command.ExecuteReader();
             
-            var ourData = readData<T>(reader);
+            //var ourData = readData<T>(reader);
 
-            reader.Close();
+            //reader.Close();
+            var ourData = connection.Query<T>(insertingCommand).ToList();
             connection.Close();
 
             return ourData;
